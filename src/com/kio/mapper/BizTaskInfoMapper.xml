@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kio.mapper.BizTaskInfoMapper">
+
+	<update id="insertTaskInfo" parameterType="BizTaskInfo">
+		update BizTaskInfo set tEndTime=#{tEndTime},bIsEnd=#{bIsEnd}
+	</update>
+	<insert id="createTaskInfo" parameterType="BizTaskInfo">
+		insert into BizTaskInfo(sTaskCode,iTaskType)
+		values(#{sTaskCode},#{iTaskType})
+	</insert>
+
+	<update id="executeTaskInfo" parameterType="BizTaskInfo">
+		UPDATE BizTaskInfo SET tCreatTime = #{tCreatTime},bIsEnd=0 where sTaskCode =
+		#{sTaskCode}
+	</update>
+	<update id="completeTaskInfo" parameterType="BizTaskInfo">
+		UPDATE BizTaskInfo set
+		tEndTime=#{tEndTime},iProgress=100,bIsEnd=#{bIsEnd},bIsError=#{bIsError},sTaskInfo=#{sTaskInfo}
+		where
+		sTaskCode = #{sTaskCode}
+	</update>
+	
+	<update id="updateIProgress" parameterType="BizTaskInfo">
+		UPDATE BizTaskInfo SET iProgress = #{iProgress} where
+		sTaskCode=#{sTaskCode};
+	</update>
+	
+	<select id="getIProgress" resultType="int">
+		select iProgress from BizTaskInfo where sTaskCode=#{param1}
+	</select>
+	
+	<select id="isEnd" resultType="int">
+		select bIsEnd from BizTaskInfo where sTaskCode=#{uuId}
+	</select>
+
+	<select id="getItem" resultType="BizTaskInfo">
+		select * from BizTaskInfo where sTaskCode = #{UUID}
+	</select>
+	
+</mapper>

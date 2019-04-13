@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="icon" href="./favicon.ico" type="image/x-icon" />
+<title>在线模型计算系统-系统日志</title>
+<script src="./script/vue.js"></script>
+<link rel="stylesheet" href="./style/element.css">
+<script src="./script/element.js"></script>
+<script src="script/echarts.js"></script>
+
+<!--阿里图标-->
+<link rel="stylesheet"
+	href="https:////at.alicdn.com/t/font_1062079_3ine6a54iwi.css">
+
+<!-- axios -->
+<script src="./script/axios.js"></script>
+
+<!--样式-->
+<link rel="stylesheet" href="style/custome.css">
+
+</head>
+<body>
+	<div id="app">
+		<div class="nav">
+			<el-menu :default-active="'1'" @select="changeMenu"
+				class="el-menu-demo" mode="horizontal" background-color="#545c64"
+				text-color="#fff" active-text-color="#ffd04b"> <el-menu-item
+				index="1"> <i
+				class="iconfont add-icon icon-icon-test"></i>&nbsp;&nbsp;系统日志</el-menu-item> <el-menu-item
+				index="2"> <i class="iconfont add-icon icon-moxing"></i>&nbsp;&nbsp;模型运算</el-menu-item>
+			</el-menu>
+		</div>
+		<div class="cards">
+			<el-card class="box-card"
+				style="float: right;width: 64%;margin-right: 2%;">
+			<div style="padding: 0;" slot="header" class="clearfix">
+				<span>详细日志</span>
+			</div>
+			<el-table :data="tableData" max-height="600" stripe
+				style="width: 100%"> <el-table-column prop="sCreateTime"
+				label="操作时间" width="180"> </el-table-column> <el-table-column
+				prop="sOperation" label="操作内容" width="180"> </el-table-column> <el-table-column
+				prop="sSession" label="SESSIONID"> </el-table-column> <el-table-column
+				prop="sIsSelf" label="是否服务端"> </el-table-column> </el-table> </el-card>
+		</div>
+		<el-card class="box-card">
+		<div style="padding: 0;" slot="header" class="clearfix">
+			<span>周使用量</span>
+		</div>
+		<div id="weekNum" style="width: 400px; height: 200px;"></div>
+		</el-card>
+		<el-card class="box-card">
+		<div style="padding: 0;" slot="header" class="clearfix">
+			<span>操作分类统计</span>
+		</div>
+		<div id="weekNum2" style="width: 400px; height: 200px;"></div>
+		</el-card>
+	</div>
+	<script src="script/index.js"></script>
+</body>
+
+</html>

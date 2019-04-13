@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kio.mapper.BizSystemLogMapper">
+	<insert id="insertOperation" parameterType="SystemLog">
+		insert into
+		BizSystemLog(sCreateTime,sOperation,sSession,sIsSelf)
+		values(#{sCreateTime},#{sOperation},#{sSession},#{sIsSelf});
+	</insert>
+	<select id="getLog" resultType="SystemLog">
+		select * from BizSystemLog where sId>#{0} and sCreateTime between #{1} and  #{2} order by sCreateTime DESC
+	</select>
+</mapper>

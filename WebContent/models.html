@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="icon" href="./favicon.ico" type="image/x-icon" />
+<title>在线模型计算系统-模型运算</title>
+<script src="./script/vue.js"></script>
+<link rel="stylesheet" href="./style/element.css">
+<script src="./script/element.js"></script>
+<script src="script/echarts.js"></script>
+
+<!--阿里图标-->
+<link rel="stylesheet"
+	href="https://at.alicdn.com/t/font_1062079_3ine6a54iwi.css">
+
+<!-- axios -->
+<script src="./script/axios.js"></script>
+
+<!--样式-->
+<link rel="stylesheet" href="style/custome.css">
+</head>
+<body>
+	<div id="app">
+		<div class="nav">
+			<el-menu :default-active="'2'" @select="changeMenu"
+				class="el-menu-demo" mode="horizontal" background-color="#545c64"
+				text-color="#fff" active-text-color="#ffd04b"> <el-menu-item
+				index="1">
+			<i class="iconfont add-icon icon-icon-test"></i>&nbsp;&nbsp;系统日志</el-menu-item> <el-menu-item
+				index="2"> <i class="iconfont add-icon icon-moxing"></i>&nbsp;&nbsp;模型运算</el-menu-item>
+			</el-menu>
+		</div>
+
+		<el-card class="box-card"
+			style="float: right;
+    width: 64%;
+    margin-right: 2%;
+    max-height: 640px;
+    background-color: rgb(252, 252, 238);
+    box-shadow: 0 2px 12px 0 #aaa;">
+		<div slot="header" class="clearfix">
+			<span style="color: #555;">运行窗口&nbsp;&nbsp;&nbsp;&nbsp;{{lockTskId}}</span>
+			<el-button style="float: right; padding: 3px 0" type="text">
+			<p v-if="lock">
+				<i class="el-icon-loading"></i>&nbsp;&nbsp;任务正在执行
+			</p>
+			<p v-else-if="progress==100">
+				<i class="el-icon-success"></i>&nbsp;&nbsp;任务执行完成
+			</p>
+			<p v-else-if="progress>0">
+				<i class="el-icon-error"></i>&nbsp;&nbsp;任务执行出错
+			</p>
+			</el-button>
+			<br>
+			<br>
+			<el-progress :text-inside="true" :stroke-width="18" status="success"
+			:percentage="progress"></el-progress> 
+		</div>
+		
+		<div style="overflow-y: auto; height: 500px;">
+			<div v-for="msg in resultData" class="text item">{{msg}}</div>
+		</div>
+		</el-card>
+		<el-card class="box-card">
+		<div slot="header" class="clearfix">
+			<span style="color: #888;">任务创建</span>
+		</div>
+		<el-select :disabled='lock' v-model="modelType" placeholder="请选择模型">
+		<el-option v-for="item in options" :key="item.value"
+			:label="item.label" :value="item.value"> </el-option> </el-select> <el-button
+			@click="createTask" style="margin-left: 20px;" type="primary"
+			class="marginLr"> <i v-if='!creating'
+			class="iconfont icon-zengjia add-icon"></i> <i v-else
+			class="el-icon-loading"></i>&nbsp;&nbsp;创建任务</el-button> <br>
+		<br>
+		<span v-if="tskId" style="color: red;">任务ID:{{tskId}}</span> </el-card>
+		<el-card class="box-card">
+		<div slot="header" class="clearfix">
+			<span style="color: #888;">执行参数</span>
+			<el-button style="float: right; padding: 3px 0" @click="helpExecute"
+				type="text"> <i class="iconfont icon-bangzhu"></i></el-button>
+		</div>
+		<el-form ref="form" label-width="90px"> <el-form-item
+			label="任务编号"> <el-input :disabled='lock'
+			v-model="fTskId"></el-input> </el-form-item> <el-form-item :disabled='lock'
+			label="固定参数"> <el-input :disabled='lock'></el-input> </el-form-item>
+		<el-form-item label="实时参数"> <el-input :disabled='lock'></el-input>
+		</el-form-item> <el-button @click="executeTask" type="warning"> <i
+			v-if='!executing' class="iconfont icon-xitongyunxing add-icon"></i> <i
+			v-else class="iconfont icon-xitongyunxing add-icon"></i>
+		&nbsp;&nbsp;立即执行</el-button> </el-form> <br>
+		</el-card>
+	</div>
+
+	<!--js-->
+	<script src="script/models.js"></script>
+</body>
+</html>

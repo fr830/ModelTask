@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kio.mapper.DataEntityMapper">
+	<insert id="insertAllData" parameterType="DataEntity">
+		insert into
+		BizComputerOut(sTaskCode,iTaskType,tTimePoint,sTxtContent, fileType)
+		values(#{sTaskCode},#{iTaskType},#{time},#{list},#{fileType});
+	</insert>
+	<select id="getItems" resultType="DataEntity">
+		SELECT TOP 40 iId as id,sTaskCode as sTaskCode,iTaskType as iTaskType,tTimePoint as Time,fileType as fileType,
+		sTxtContent as list FROM BizComputerOut
+		WHERE sTaskCode=#{param1} and iId>#{param2}
+	</select>
+	<delete id="deleteDataEntity" parameterType="String">
+		delete BizComputerOut where sTaskCode=#{UUID}
+	</delete>
+</mapper>
