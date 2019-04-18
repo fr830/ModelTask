@@ -1,6 +1,5 @@
 package com.kio.entity;
 
-import net.sf.json.JSON;
 import org.json.JSONObject;
 
 import java.io.*;

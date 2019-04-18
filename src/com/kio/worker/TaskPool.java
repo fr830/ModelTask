@@ -1,17 +1,18 @@
 package com.kio.worker;
 
 import com.kio.listener.Init;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 
 /**
- * 解析数据线程池-Read_Final
+ * 解析数据线程池-StartTask
  * 控制该线程的执行数
  * @author KIO
  *
  */
-public class ReadFinalPool {
+public class TaskPool {
 	public static int maxQueue = 20;	//最大缓冲队列
 	public static ExecutorService fixPool = Executors.newFixedThreadPool(Init.PARAMETERS.getMaxThreadNum());	//固定式线程池
 	public static ThreadPoolExecutor tpe = ((ThreadPoolExecutor) fixPool);		//监测线程池信息
@@ -22,7 +23,7 @@ public class ReadFinalPool {
 	}
 
 	public static void setMaxQueue(int maxQueue) {
-		ReadFinalPool.maxQueue = maxQueue;
+		TaskPool.maxQueue = maxQueue;
 	}
 
 	public static int getPerTaskTime() {
@@ -30,7 +31,7 @@ public class ReadFinalPool {
 	}
 
 	public static void setPerTaskTime(int perTaskTime) {
-		ReadFinalPool.perTaskTime = perTaskTime;
+		TaskPool.perTaskTime = perTaskTime;
 	}
 
 	//缓冲队列大小
@@ -70,11 +71,11 @@ public class ReadFinalPool {
 	public static int addTask(String uuid, int type, String Info1, String Info2){
 
 		if(currentThread()<Init.PARAMETERS.getMaxThreadNum()) {
-			fixPool.execute(new Read_Final(uuid, type, Info1, Info2).getRunnable());
+			fixPool.execute(new StartTask(uuid, type, Info1, Info2).getRunnable());
 			return 0;	//立即执行
 		}
 		else if(tpe.getQueue().size()<maxQueue){
-			fixPool.execute(new Read_Final(uuid, type, Info1, Info2).getRunnable());
+			fixPool.execute(new StartTask(uuid, type, Info1, Info2).getRunnable());
 			return 1;	//线程池缓冲队列
 		}
 		else

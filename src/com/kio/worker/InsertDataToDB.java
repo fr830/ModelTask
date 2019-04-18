@@ -1,20 +1,31 @@
 package com.kio.worker;
 
+import com.kio.dao.BizComputerOutDao;
+import com.kio.dao.BizTaskInfoDao;
+import com.kio.entity.DataEntity;
+import net.sf.json.JSONArray;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import com.kio.dao.BizComputerOutDao;
-import com.kio.dao.BizTaskInfoDao;
-import com.kio.entity.DataEntity;
-
-import net.sf.json.JSONArray;
-
+/*
+ * 将一条数据插入数据库中，并更新任务进度
+ */
 public class InsertDataToDB {
 	private String uuid;
 	private int lastTime;
 	private int type;
+	
+	public InsertDataToDB(){
+	}
+	
+	public InsertDataToDB(String uuid, int type, int lastTime){
+		this.uuid = uuid;
+		this.type = type;
+		this.lastTime = lastTime;
+	}
 	
 	public String getUuid() {
 		return uuid;
@@ -41,11 +52,11 @@ public class InsertDataToDB {
 	}
 
 	/**
-	* 将DATAINPUTDyna.dat中的一条数据以及一次进度值插入数据库中
-	* @param data, time, end
+	* 将DATAINPUTDyna.dat中的一条数据插入数据库中，更新任务进度
+	* @param data, time, progress, end
 	*/
-	public void databaseDyna(List<List<String>> data, float time, boolean end)
-			throws InterruptedException, ParseException {
+	public void databaseDyna(List<List<String>> data, float time, int progress, boolean end)
+			throws  ParseException {
 		if (!data.isEmpty()) {
 			// Insert data into BizComputerOut
 			DataEntity dataEntity = new DataEntity();
@@ -63,12 +74,10 @@ public class InsertDataToDB {
 
 			//Update progress
 		    flag = false;
-		    int progress = (int)(((time*3600)/lastTime)*100);
 		    if(!end)
 		    	flag = BizTaskInfoDao.updateIProgress(uuid, progress);
 		    else{
 		    	flag = true;
-		    	progress = 100;
 		    	SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		    	BizTaskInfoDao.completeTaskInfo(uuid, df.parse(df.format(new Date())), 1, 0, "");
 		    }
@@ -79,11 +88,11 @@ public class InsertDataToDB {
 	}
 	
 	/**
-	* 将DATAINPUT水质.dat中的一条时间点数据以及一次进度值插入数据库中
-	* @param lineData, time, end
+	* 将DATAINPUT水质.dat中的一条时间点数据插入数据库中，更新任务进度
+	* @param lineData, time, progress, end
 	*/
-	public void databaseWaterQuality(String lineData, float time, boolean end)
-				throws InterruptedException, ParseException {
+	public void databaseWaterQuality(String lineData, float time, int progress, boolean end)
+				throws ParseException {
 			if (lineData!="") {
 				
 				// Insert data into BizComputerOut
@@ -101,12 +110,10 @@ public class InsertDataToDB {
 
 				//Update progress
 			    flag = false;
-			    int progress = (int)(((time*3600)/lastTime)*100);
 			    if(!end)
 			    	flag = BizTaskInfoDao.updateIProgress(uuid, progress);
 			    else{
 			    	flag = true;
-			    	progress = 100;
 			    	SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			    	BizTaskInfoDao.completeTaskInfo(uuid, df.parse(df.format(new Date())), 1, 0, "");
 			    }

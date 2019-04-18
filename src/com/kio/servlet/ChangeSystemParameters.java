@@ -2,7 +2,7 @@ package com.kio.servlet;
 
 import com.kio.entity.SystemParameters;
 import com.kio.listener.Init;
-import com.kio.worker.ReadFinalPool;
+import com.kio.worker.TaskPool;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -21,7 +21,7 @@ public class ChangeSystemParameters extends HttpServlet {
         result.put("success", false);
         result.put("msg", "系统存在活动线程，不允许修改！");
 
-        if (ReadFinalPool.currentThread() <= 0) {
+        if (TaskPool.currentThread() <= 0) {
             try {
                 JSONObject dataObject = new JSONObject(data);
                 int maxThreadNum = dataObject.getInt("maxThreadNum");

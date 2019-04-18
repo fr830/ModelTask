@@ -56,17 +56,12 @@ public class GetTaskProgress extends HttpServlet {
                 break;
             case "3":
                 HttpSession session = request.getSession();
-                int task3progress = 0;
-                try {
-                    task3progress = (int) session.getAttribute(sTaskCode);
-                } catch (Exception ignore) {
-                    //第一次请求会空指针
-                }
+                int task3progress = (int) session.getAttribute(sTaskCode);
                 //模拟进度
                 task3progress += Math.random() * 30;
                 if (task3progress > 90)
                     task3progress = 90;
-                task3Do(result, sTaskCode, task3progress);
+                task3Do(result, sTaskCode, request.getSession(), task3progress);
                 session.setAttribute(sTaskCode, task3progress);
                 break;
             default:
@@ -96,14 +91,14 @@ public class GetTaskProgress extends HttpServlet {
             result.put("code", 1);
             result.put("msg", "暂时没有数据可读取!");
         } else {
-            String space="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+            String space = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
             JSONArray items = new JSONArray();
             for (DataEntity item : data) {
                 String list = item.getList();
-                items.put("<label class='received' style='color:#c00'>" + item.getId() + "</label>" + space +
-                        "<label class='received' style='color:#0c0'>" + item.getTime() + "</label>" + space +
+                items.put("<label class='received' style='color:#0c0'>" + item.getTime() + "</label>" + space +
                         "<label class='received' style='color:#00c'>" + item.getFileType() + "</label>" + space +
-                        list.substring(0, 90)
+                        list.substring(0, 80) +
+                        "..."
                 );
             }
             int stamp = data.get(data.size() - 1).getId();
@@ -117,7 +112,7 @@ public class GetTaskProgress extends HttpServlet {
         result.put("isEnd", isEnd);
     }
 
-    private void task3Do(JSONObject result, String sTaskCode, int progress) {
+    private void task3Do(JSONObject result, String sTaskCode, HttpSession session, int progress) {
         // 检查是否存在该编号的输出文件
         String fileName = Init.PARAMETERS.getModel_3_path() + File.separator + "workfile" + sTaskCode + File.separator + "M溯源结果.txt";
 
@@ -126,6 +121,7 @@ public class GetTaskProgress extends HttpServlet {
             result.put("code", 0);
             result.put("isEnd", true);
             progress = 100;
+            session.removeAttribute(sTaskCode); //移除结束了的任务的进度
             result.put("stamp", 0);
             result.put("msg", FileOperation.readInfoFromFile(fileName));
         } else {

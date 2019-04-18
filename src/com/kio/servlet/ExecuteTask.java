@@ -5,7 +5,7 @@ import com.kio.dao.BizComputerOutDao;
 import com.kio.dao.BizTaskInfoDao;
 import com.kio.entity.BizTaskInfo;
 import com.kio.listener.Init;
-import com.kio.worker.ReadFinalPool;
+import com.kio.worker.TaskPool;
 import com.kio.worker.RunTaskThread;
 import org.json.JSONObject;
 
@@ -13,6 +13,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -34,6 +35,7 @@ public class ExecuteTask extends HttpServlet {
 
         String sTaskCode = request.getParameter("sTaskCode");// 任务编号
         String iTaskType = request.getParameter("iTaskType");// 任务类型
+        String params = request.getParameter("param");//任务参数
 
         if (sTaskCode == null)
             sTaskCode = "";
@@ -53,7 +55,7 @@ public class ExecuteTask extends HttpServlet {
                     taskDo(sTaskCode, result);
                     break;
                 case "3":
-                    task3Do(sTaskCode, result);
+                    task3Do(sTaskCode, result, request.getSession(), params);
                     break;
                 default:
                     result.put("code", 2);
@@ -69,34 +71,35 @@ public class ExecuteTask extends HttpServlet {
     private void taskDo(String sTaskCode, JSONObject result) {
         if (FileOperation.fileExisit(Init.PARAMETERS.getModel_1_path() + File.separator + "workfile" + sTaskCode)) {
             BizComputerOutDao.deleteDataEntity(sTaskCode);// 先删除已有的任务结果
-            String Info1 = "";
-            String Info2 = "";
-            int state = ReadFinalPool.addTask(sTaskCode, 2, Info1, Info2);// 启动数据写入线程
+            BizTaskInfoDao.updateIProgress(sTaskCode, 0);
+            String Info1 = "";//固定参数
+            String Info2 = "";//实时参数
+            int state = TaskPool.addTask(sTaskCode, 2, Info1, Info2);// 启动数据写入线程
             if (state == 0) {
                 result.put("code", 0);
                 result.put("msg", "任务正在执行!");
             } else if (state == 1) {// 任务被放入缓冲队列，提示滞后执行
-                result.put("code", 4);
+                result.put("code", 0);
                 result.put("msg", "当前服务器繁忙，您的任务将被滞后执行，请耐心等候!");
-
             } else {
                 result.put("code", 5);
                 result.put("msg", "当前执行任务数过多，请稍后重试!");
             }
 
         } else {
-            result.put("code", 1);
+            result.put("code", 4);
             result.put("msg", "该任务不存在，无法运行!");
         }
     }
 
 
-    private void task3Do(String sTaskCode, JSONObject result) {
+    private void task3Do(String sTaskCode, JSONObject result, HttpSession session, String params) {
         Thread task;
         if (FileOperation.fileExisit(Init.PARAMETERS.getModel_3_path() + File.separator + "workfile" + sTaskCode)) {
-            task = new RunTaskThread(sTaskCode);
+            task = new RunTaskThread(sTaskCode, params);
             task.start();
             if (BizTaskInfoDao.executeTask(sTaskCode, new Date())) {
+                session.setAttribute(sTaskCode, 0);
                 result.put("code", 0);
                 result.put("msg", "任务正在执行!");
             } else {
