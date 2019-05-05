@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import org.apache.ibatis.annotations.Param;
 
-import com.kio.entity.DataEntity;
+import com.kio.entity.output.DataEntity;
 
 /**
  * 结果行匹配类
@@ -28,6 +28,8 @@ public interface DataEntityMapper {
      * @return 结果行列表
      */
     ArrayList<DataEntity> getItems(@Param("uuid") String uuid, @Param("from") int from);
+
+    ArrayList<DataEntity> getAllRecords(@Param("uuid") String uuid);
 
     boolean deleteDataEntity(String uuid);
 }

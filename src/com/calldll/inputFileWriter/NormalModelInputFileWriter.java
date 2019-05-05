@@ -2,7 +2,11 @@ package com.calldll.inputFileWriter;
 
 import java.util.List;
 import java.util.Map;
-import com.kio.entity.*;
+
+import com.kio.entity.input.FskInfo;
+import com.kio.entity.input.JzzInfo;
+import com.kio.entity.input.ModelParam;
+import com.kio.entity.input.TszInfo;
 
 /**
  * 常规调度模式下的输入文件组装类
@@ -30,11 +34,11 @@ public class NormalModelInputFileWriter implements ModelInputFileWriter {
 	 * @return 操作成功与否 
 	 * @throws Exception 
 	 */
-	public boolean composeInputFile(ModelParam param, 
-			Map<String, JzzInfo> jzzMap, 
-			Map<String, FskInfo> fskMap,
-			Map<String, TszInfo> tszMap,
-			String outputFile) throws Exception {
+	public boolean composeInputFile(ModelParam param,
+                                    Map<String, JzzInfo> jzzMap,
+                                    Map<String, FskInfo> fskMap,
+                                    Map<String, TszInfo> tszMap,
+                                    String outputFile) throws Exception {
 		boolean result = false;
 		try {
 			FileReadTool tool = new FileReadTool(modelInputFile);

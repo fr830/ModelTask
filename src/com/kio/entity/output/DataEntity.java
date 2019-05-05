@@ -1,4 +1,4 @@
-package com.kio.entity;
+package com.kio.entity.output;
 /**
  * 结果行
  * @author KIO

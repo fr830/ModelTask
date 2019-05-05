@@ -2,7 +2,11 @@ package com.calldll.inputFileWriter;
 
 import java.util.List;
 import java.util.Map;
-import com.kio.entity.*;
+
+import com.kio.entity.input.FskInfo;
+import com.kio.entity.input.JzzInfo;
+import com.kio.entity.input.ModelParam;
+import com.kio.entity.input.TszInfo;
 
 /**
  * 应急调度模式下的输入文件组装类
@@ -29,11 +33,11 @@ public class EmergentModelInputFileWriter implements ModelInputFileWriter {
 	 * @param outputFile -- 生成的新模型参数文件完整路径名，如 d:\input\...
 	 * @return 操作成功与否
 	 */
-	public boolean composeInputFile(ModelParam param, 
-			Map<String, JzzInfo> jzzMap, 
-			Map<String, FskInfo> fskMap,
-			Map<String, TszInfo> tszMap,
-			String outputFile) {
+	public boolean composeInputFile(ModelParam param,
+                                    Map<String, JzzInfo> jzzMap,
+                                    Map<String, FskInfo> fskMap,
+                                    Map<String, TszInfo> tszMap,
+                                    String outputFile) {
 		boolean result = false;
 		try {
 			FileReadTool tool = new FileReadTool(modelInputFile);

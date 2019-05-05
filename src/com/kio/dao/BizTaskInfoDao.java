@@ -3,7 +3,7 @@ package com.kio.dao;
 import java.util.Date;
 import org.apache.ibatis.session.SqlSession;
 
-import com.kio.entity.BizTaskInfo;
+import com.kio.entity.task.BizTaskInfo;
 import com.kio.mapper.BizTaskInfoMapper;
 
 /**

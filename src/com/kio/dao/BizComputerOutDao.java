@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import org.apache.ibatis.session.SqlSession;
 
-import com.kio.entity.DataEntity;
+import com.kio.entity.output.DataEntity;
 import com.kio.mapper.DataEntityMapper;
 /**
  * 计算结果DAO层
@@ -50,6 +50,25 @@ public class BizComputerOutDao {
 			session.rollback();
 		}
 		return flag;
+	}
+	/**
+	 * 通过UUID获取所有的记录
+	 * @param uuid 任务ID
+	 * @return 返回该UUID任务的列表
+	 */
+	public static ArrayList<DataEntity> getAllRecords(String uuid) {
+		ArrayList<DataEntity> records = null;
+		SqlSession session = new DBTools().getNewSession();
+		DataEntityMapper mapper = session.getMapper(DataEntityMapper.class);
+		try {
+			records = mapper.getAllRecords(uuid);
+			session.commit();
+			session.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+			session.rollback();
+		}
+		return records;
 	}
 	/**
 	 * 插入一条结果行

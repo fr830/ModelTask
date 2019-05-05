@@ -1,7 +1,11 @@
 package com.calldll.inputFileWriter;
 
 import java.util.Map;
-import com.kio.entity.*;
+
+import com.kio.entity.input.FskInfo;
+import com.kio.entity.input.JzzInfo;
+import com.kio.entity.input.ModelParam;
+import com.kio.entity.input.TszInfo;
 
 
 public interface ModelInputFileWriter {

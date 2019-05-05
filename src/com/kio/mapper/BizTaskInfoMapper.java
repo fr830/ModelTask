@@ -2,7 +2,7 @@ package com.kio.mapper;
 
 import org.apache.ibatis.annotations.Param;
 
-import com.kio.entity.BizTaskInfo;
+import com.kio.entity.task.BizTaskInfo;
 /**
  * 任务信息匹配类
  * @author KIO

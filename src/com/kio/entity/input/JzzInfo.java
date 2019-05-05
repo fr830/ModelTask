@@ -1,4 +1,4 @@
-package com.kio.entity;
+package com.kio.entity.input;
 
 /**
  * 节制闸信息对象，包括全局编号jctid，名称jctname，闸前水位frontwl，闸后水位backwl, 过闸流量afterflow

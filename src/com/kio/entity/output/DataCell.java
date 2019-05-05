@@ -1,4 +1,4 @@
-package com.kio.entity;
+package com.kio.entity.output;
 
 import java.util.ArrayList;
 import java.util.List;

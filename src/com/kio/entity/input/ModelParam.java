@@ -1,4 +1,4 @@
-package com.kio.entity;
+package com.kio.entity.input;
 
 public class ModelParam {
 	

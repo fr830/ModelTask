@@ -3,7 +3,7 @@ package com.kio.servlet;
 import com.calldll.utils.FileOperation;
 import com.kio.dao.BizComputerOutDao;
 import com.kio.dao.BizTaskInfoDao;
-import com.kio.entity.DataEntity;
+import com.kio.entity.output.DataEntity;
 import com.kio.listener.Init;
 import org.json.JSONArray;
 import org.json.JSONObject;

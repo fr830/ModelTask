@@ -1,4 +1,4 @@
-package com.kio.entity;
+package com.kio.entity.task;
 
 /**
  * 进度类，将Dyna线程和WaterQuality线程中更慢的进度作为任务进度

@@ -1,8 +1,8 @@
 package com.kio.worker;
 
 import com.calldll.utils.BufferedRandomAccessFile;
-import com.kio.entity.DataCell;
-import com.kio.entity.ReadFileProgress;
+import com.kio.entity.output.DataCell;
+import com.kio.entity.task.ReadFileProgress;
 
 import java.io.File;
 import java.io.IOException;
@@ -41,6 +41,7 @@ public class ReadFile {
 class ReadDyna implements Runnable{
 	private String filename;
 	private int lastTime;
+	private String uuid;
 	private ReadFileProgress rfProgress;
 	private InsertDataToDB insertDataToDB;
 	
@@ -49,6 +50,7 @@ class ReadDyna implements Runnable{
 		this.filename = filename;
 		this.lastTime = lastTime;
 		this.rfProgress = rfProgress;
+		this.uuid = uuid;
 		this.insertDataToDB = new InsertDataToDB(uuid, type, lastTime);
 	}
 	
@@ -61,7 +63,7 @@ class ReadDyna implements Runnable{
 			long len = 0; 
 			float time = 0; 
 			rf = new BufferedRandomAccessFile(filename + File.separator + "DATAINPUTDyna.dat", "r");
-			List<List<String>> dataList = new ArrayList<>(); 
+			List<List<String>> dataList = new ArrayList<>();
 			Instant lastIns = Instant.now();
 			
 			while ( ((line = rf.readLine()) !=  null) || (time*3600+0.1 < lastTime)) {
@@ -80,13 +82,12 @@ class ReadDyna implements Runnable{
 							int progressDyna = (int)( ((time*3600)/lastTime)*100 );
 							rfProgress.setProgressDyna(progressDyna);
 							insertDataToDB.databaseDyna(dataList, time, rfProgress.getProgress(), false);
-							
-							time = Float.parseFloat(str[1]); 
-							
+
+							time = Float.parseFloat(str[1]);
 						} else if (str.length == 5 || str.length == 7 || str.length == 10){		//有效数据
 							//将读取到的每行数据放入DataCell实体中，对str的拆分与拼接
 							DataCell dataCell = new DataCell();
-							dataCell.setTime(time); 
+							dataCell.setTime(time);
 							dataCell.setAllData(str);
 							dataList.add(dataCell.getAllData());
 						}
@@ -100,7 +101,6 @@ class ReadDyna implements Runnable{
 				} else {
 					//无法读取到dat文件的新行数，exe运行速度慢 或 运行出错
 					if((Duration.between(lastIns, Instant.now()).getSeconds() < 10)){
-						System.out.println("Thread 2000");
 						Thread.sleep(2000);
 					} else {
 						System.out.println("Timeout Error!");
@@ -191,7 +191,6 @@ class ReadWaterQuality implements Runnable{
 				} else {
 					//无法读取到dat文件的新行数，exe运行速度慢 或 运行出错
 					if((Duration.between(lastIns, Instant.now()).getSeconds() < 10)){
-						System.out.println("Thread 2000");
 						Thread.sleep(2000);
 					} else {
 						System.out.println("Timeout Error!");

@@ -2,9 +2,8 @@ package com.kio.worker;
 
 import com.kio.dao.BizComputerOutDao;
 import com.kio.dao.BizTaskInfoDao;
-import com.kio.entity.DataEntity;
+import com.kio.entity.output.DataEntity;
 import net.sf.json.JSONArray;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -86,7 +85,8 @@ public class InsertDataToDB {
 				System.out.println(uuid + "\tUpdate progress failed");
 		}
 	}
-	
+
+
 	/**
 	* 将DATAINPUT水质.dat中的一条时间点数据插入数据库中，更新任务进度
 	* @param lineData, time, progress, end

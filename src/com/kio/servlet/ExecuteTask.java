@@ -3,7 +3,7 @@ package com.kio.servlet;
 import com.calldll.utils.FileOperation;
 import com.kio.dao.BizComputerOutDao;
 import com.kio.dao.BizTaskInfoDao;
-import com.kio.entity.BizTaskInfo;
+import com.kio.entity.task.BizTaskInfo;
 import com.kio.listener.Init;
 import com.kio.worker.TaskPool;
 import com.kio.worker.RunTaskThread;

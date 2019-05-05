@@ -35,6 +35,7 @@ public class ChangeSystemParameters extends HttpServlet {
                         path2,
                         path3
                 );
+                Init.PARAMETERS.commit();
                 result.put("success", true);
                 result.remove("msg");
 

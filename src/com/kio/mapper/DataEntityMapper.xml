@@ -11,6 +11,11 @@
 		sTxtContent as list FROM BizComputerOut
 		WHERE sTaskCode=#{param1} and iId>#{param2}
 	</select>
+	<select id="getAllRecords" resultType="DataEntity">
+		SELECT iId as id, sTaskCode as sTaskCode,iTaskType as iTaskType,tTimePoint as Time,fileType as fileType,
+		sTxtContent as list FROM BizComputerOut
+		WHERE sTaskCode=#{param1}
+	</select>
 	<delete id="deleteDataEntity" parameterType="String">
 		delete BizComputerOut where sTaskCode=#{UUID}
 	</delete>

@@ -2,7 +2,7 @@ package com.kio.worker;
 
 import com.calldll.inputFileWriter.InputFileWriter;
 import com.calldll.utils.FileOperation;
-import com.kio.entity.ReadFileProgress;
+import com.kio.entity.task.ReadFileProgress;
 import com.kio.listener.Init;
 import com.sun.jna.platform.win32.User32;
 import com.sun.jna.platform.win32.WinDef.HWND;

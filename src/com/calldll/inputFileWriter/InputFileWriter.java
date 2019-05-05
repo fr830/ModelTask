@@ -6,7 +6,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import com.calldll.utils.FileOperation;
-import com.kio.entity.*;
+import com.kio.entity.input.FskInfo;
+import com.kio.entity.input.JzzInfo;
+import com.kio.entity.input.ModelParam;
+import com.kio.entity.input.TszInfo;
 import com.kio.listener.Init;
 
 
@@ -108,7 +111,7 @@ public class InputFileWriter {
 		Map<String, FskInfo> fskInfo = new HashMap<String, FskInfo>();
 		for(int i=0; i<fskList.size(); i++){
 			String[] list = fskList.get(i).split(",");
-			fskInfo.put(list[1],new FskInfo(Integer.parseInt(list[1]),list[2], Integer.parseInt(list[3]), 
+			fskInfo.put(list[1],new FskInfo(Integer.parseInt(list[1]),list[2], Integer.parseInt(list[3]),
 					Float.parseFloat(list[4]), Integer.parseInt(list[5]), Float.parseFloat(list[6])));
 		}
 		return fskInfo;

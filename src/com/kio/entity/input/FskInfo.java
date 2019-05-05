@@ -1,4 +1,4 @@
-package com.kio.entity;
+package com.kio.entity.input;
 
 /**
  * 分水口退水闸信息对象，包括全局id，名称，当前时间点currentTime，当前分水流量值currentFlow，分水计划时间expectTime，分水计划流量expectFlow

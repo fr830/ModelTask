@@ -1,4 +1,4 @@
-package com.kio.entity;
+package com.kio.entity.task;
 
 import java.util.Date;
 
